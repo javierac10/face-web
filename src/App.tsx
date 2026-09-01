@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+// import { useSearchParams } from "react-router-dom";
 
 type Status =
 | "idle"
@@ -15,6 +16,16 @@ faceCount: number;
 }
 
 function App() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const cardId =
+    params.get("cardId");
+
+
 const videoRef = useRef<HTMLVideoElement>(null);
 const streamRef = useRef<MediaStream | null>(null);
 
@@ -237,6 +248,9 @@ fontFamily:
 "Arial, Helvetica, sans-serif",
 }}
 >
+  <p>
+    Tarjeta solicitada: {cardId}
+  </p>
 <section
 style={{
 width: "100%",
