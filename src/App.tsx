@@ -17,13 +17,10 @@ faceCount: number;
 
 function App() {
 
-  const params =
+  const transactionId =
     new URLSearchParams(
       window.location.search
-    );
-
-  const cardId =
-    params.get("cardId");
+    ).get("transactionId");
 
 
 const videoRef = useRef<HTMLVideoElement>(null);
@@ -146,10 +143,17 @@ try {
 
   const formData = new FormData();
 
+  if (!transactionId) {
+    setStatus("error");
+    setMessage(
+      "No se encontró el identificador de la solicitud."
+    );
+    return;
+  }
+
   formData.append(
-    "image",
-    blob,
-    "face.jpg"
+    "transactionId",
+    transactionId
   );
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -161,7 +165,7 @@ try {
       body: formData,
     }
   );
-  console.log("API_URL:", API_URL);
+
   if (!response.ok) {
     const errorText =
       await response.text();
@@ -174,10 +178,7 @@ try {
   const result =
     (await response.json()) as FaceDetectionResult;
 
-  console.log(
-    "Resultado Face Detection:",
-    result
-  );
+  console.log("Resultado Face Detection:", result);
 
   if (
     result.faceDetected &&
@@ -236,29 +237,26 @@ track.stop();
 }, []);
 
 return (
-<main
-style={{
-minHeight: "100vh",
-display: "flex",
-justifyContent: "center",
-alignItems: "center",
-padding: "24px",
-boxSizing: "border-box",
-fontFamily:
-"Arial, Helvetica, sans-serif",
-}}
->
-  <p>
-    Tarjeta solicitada: {cardId}
-  </p>
-<section
-style={{
-width: "100%",
-maxWidth: "600px",
-textAlign: "center",
-}}
-> <h1>
-Verificación facial </h1>
+  <main
+    style={{
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "24px",
+    boxSizing: "border-box",
+    fontFamily:
+    "Arial, Helvetica, sans-serif",
+    }}
+  >
+
+  <section
+    style={{
+    width: "100%",
+    maxWidth: "600px",
+    textAlign: "center",
+    }}>
+      <h1>Verificación facial </h1>
 
 
     <p>
