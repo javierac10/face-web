@@ -436,7 +436,7 @@ function App() {
       const response = await fetch(
         `${API_URL}/api/card-applications/${encodeURIComponent(
           transactionId
-        )}`
+        )}`, { method: "GET", headers: { "ngrok-skip-browser-warning": "true", }, }
       );
 
       console.log("card-applications Response 1:", response);
