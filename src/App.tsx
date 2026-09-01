@@ -655,7 +655,6 @@ function App() {
           body: formData,
         }
       );
-      console.log("card-applications Response 2:", response);
 
       if (!response.ok) {
         const errorText =
@@ -691,6 +690,7 @@ function App() {
             )}`
           );
 
+      console.log("card-applications Response 2:", applicationResponse);
         if (
           !applicationResponse.ok
         ) {
