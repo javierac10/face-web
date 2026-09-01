@@ -764,24 +764,78 @@ function App() {
     }
   };
 
-  const continueApplication = () => {
-    console.log(
-      "Continuando solicitud:",
-      application
+  
+
+
+const continueApplication = async () => {
+  if (!transactionId) {
+    setStatus("error");
+    setMessage(
+      "No se encontró el identificador de la solicitud."
+    );
+    return;
+  }
+
+  try {
+    setMessage(
+      "Preparando la solicitud..."
     );
 
-    /*
-     * Por ahora solamente demostramos
-     * que podemos continuar después
-     * de FACE_DETECTED.
-     *
-     * El siguiente paso será implementar
-     * la siguiente etapa real del workflow.
-     */
-    alert(
-      "Solicitud lista para continuar."
+    const response = await fetch(
+      `${API_URL}/api/card-applications/${encodeURIComponent(
+        transactionId
+      )}/continue`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning":
+            "true",
+        },
+      }
     );
-  };
+
+    if (!response.ok) {
+      const errorText =
+        await response.text();
+
+      throw new Error(
+        `HTTP ${response.status}: ${errorText}`
+      );
+    }
+
+    const updatedApplication =
+      (await response.json()) as CardApplication;
+
+    console.log(
+      "Solicitud continuada:",
+      updatedApplication
+    );
+
+    setApplication(
+      updatedApplication
+    );
+
+    setMessage(
+      "✓ Solicitud lista para completar tus datos."
+    );
+  } catch (error) {
+    console.error(
+      "Error continuando solicitud:",
+      error
+    );
+
+    setStatus("error");
+
+    setMessage(
+      "No fue posible continuar con la solicitud."
+    );
+  }
+};
+
+
+
+
 
   useEffect(() => {
     loadApplication();
@@ -949,15 +1003,22 @@ function App() {
             </button>
           )}
 
-          {status === "success" && (
-            <button
-              onClick={
-                continueApplication
-              }
-            >
-              Continuar solicitud
-            </button>
-          )}
+          {status === "success" &&
+            application?.status === "FACE_DETECTED" && (
+              <button
+                onClick={continueApplication}
+              >
+                Continuar solicitud
+              </button>
+            )}
+
+          {status === "success" &&
+            application?.status ===
+              "APPLICATION_IN_PROGRESS" && (
+              <button disabled>
+                Solicitud en progreso
+              </button>
+            )}
         </div>
 
         <p
