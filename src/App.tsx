@@ -161,7 +161,7 @@ try {
       body: formData,
     }
   );
-
+  console.log("API_URL:", API_URL);
   if (!response.ok) {
     const errorText =
       await response.text();
