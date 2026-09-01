@@ -433,11 +433,6 @@ function App() {
       return;
     }
 
-    try {
-      setMessage(
-        "Consultando solicitud..."
-      );
-
       const response = await fetch(
         `${API_URL}/api/card-applications/${encodeURIComponent(
           transactionId
@@ -445,6 +440,11 @@ function App() {
       );
 
       console.log("card-applications Response 1:", response);
+    try {
+      setMessage(
+        "Consultando solicitud..."
+      );
+
 
       if (!response.ok) {
         const errorText =
