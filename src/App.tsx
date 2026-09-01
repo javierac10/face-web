@@ -421,6 +421,9 @@ function App() {
       window.location.search
     ).get("transactionId");
 
+  console.log("API_URL:", API_URL);
+  console.log("TransactionId:", transactionId);
+
   const loadApplication = async () => {
     if (!transactionId) {
       setStatus("error");
