@@ -444,6 +444,8 @@ function App() {
         )}`
       );
 
+      console.log("card-applications Response:", response);
+
       if (!response.ok) {
         const errorText =
           await response.text();
