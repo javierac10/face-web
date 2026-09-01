@@ -655,6 +655,7 @@ function App() {
           body: formData,
         }
       );
+      console.log("card-applications Response 2:", response);
 
       if (!response.ok) {
         const errorText =
@@ -697,7 +698,6 @@ function App() {
             "No fue posible consultar el estado actualizado."
           );
         }
-        console.log("card-applications Response 2:", applicationResponse);
 
         const updatedApplication =
           (await applicationResponse.json()) as CardApplication;
