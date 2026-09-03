@@ -672,4 +672,3 @@ const continueApplication = async () => {
 }
 
 export default App;
-
