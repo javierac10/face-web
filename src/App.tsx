@@ -14,7 +14,6 @@ type Status =
 
 interface FaceDetectionResult {
   faceDetected: boolean;
-  faceCount: number;
   transactionId?: string;
   status?: string;
 }
@@ -28,35 +27,22 @@ interface CardApplication {
 }
 
 function App() {
-  const videoRef =
-    useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const streamRef =
-    useRef<MediaStream | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
 
-  const [
-    status,
-    setStatus,
-  ] = useState<Status>("loading");
+  const [status, setStatus] = useState<Status>("loading");
 
-  const [
-    message,
-    setMessage,
-  ] = useState(
+  const [message, setMessage] = useState(
     "Cargando solicitud..."
   );
 
-  const [
-    application,
-    setApplication,
-  ] = useState<CardApplication | null>(
-    null
-  );
+  const [application, setApplication] =
+    useState<CardApplication | null>(null);
 
-  const transactionId =
-    new URLSearchParams(
-      window.location.search
-    ).get("transactionId");
+  const transactionId = new URLSearchParams(
+    window.location.search
+  ).get("transactionId");
 
   console.log("API_URL:", API_URL);
   console.log("TransactionId:", transactionId);
@@ -70,22 +56,28 @@ function App() {
       return;
     }
 
+    try {
+      setMessage("Consultando solicitud...");
+
       const response = await fetch(
         `${API_URL}/api/card-applications/${encodeURIComponent(
           transactionId
-        )}`, { method: "GET", headers: { "ngrok-skip-browser-warning": "true", }, }
+        )}`,
+        {
+          method: "GET",
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
       );
 
-      console.log("card-applications Response 1:", response);
-    try {
-      setMessage(
-        "Consultando solicitud..."
+      console.log(
+        "card-applications Response:",
+        response
       );
-
 
       if (!response.ok) {
-        const errorText =
-          await response.text();
+        const errorText = await response.text();
 
         throw new Error(
           `HTTP ${response.status}: ${errorText}`
@@ -95,17 +87,11 @@ function App() {
       const data =
         (await response.json()) as CardApplication;
 
-      console.log(
-        "Solicitud obtenida:",
-        data
-      );
+      console.log("Solicitud obtenida:", data);
 
       setApplication(data);
 
-      if (
-        data.status ===
-        "FACE_DETECTED"
-      ) {
+      if (data.status === "FACE_DETECTED") {
         setStatus("success");
         setMessage(
           "✓ La verificación facial ya fue completada."
@@ -114,6 +100,7 @@ function App() {
       }
 
       setStatus("idle");
+
       setMessage(
         "Activa la cámara para comenzar la verificación facial."
       );
@@ -124,6 +111,7 @@ function App() {
       );
 
       setStatus("error");
+
       setMessage(
         "No fue posible obtener la solicitud."
       );
@@ -133,25 +121,23 @@ function App() {
   const startCamera = async () => {
     try {
       setStatus("starting");
+
       setMessage(
         "Solicitando acceso a la cámara..."
       );
 
       const stream =
-        await navigator.mediaDevices.getUserMedia(
-          {
-            video: {
-              facingMode: "user",
-            },
-            audio: false,
-          }
-        );
+        await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "user",
+          },
+          audio: false,
+        });
 
       streamRef.current = stream;
 
       if (videoRef.current) {
-        videoRef.current.srcObject =
-          stream;
+        videoRef.current.srcObject = stream;
 
         await videoRef.current.play();
       }
@@ -183,14 +169,12 @@ function App() {
     streamRef.current = null;
 
     if (videoRef.current) {
-      videoRef.current.srcObject =
-        null;
+      videoRef.current.srcObject = null;
     }
   };
 
   const captureAndDetect = async () => {
-    const video =
-      videoRef.current;
+    const video = videoRef.current;
 
     if (!video) {
       return;
@@ -227,15 +211,10 @@ function App() {
       );
 
       const canvas =
-        document.createElement(
-          "canvas"
-        );
+        document.createElement("canvas");
 
-      canvas.width =
-        video.videoWidth;
-
-      canvas.height =
-        video.videoHeight;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
 
       const context =
         canvas.getContext("2d");
@@ -271,8 +250,7 @@ function App() {
         );
       }
 
-      const formData =
-        new FormData();
+      const formData = new FormData();
 
       formData.append(
         "image",
@@ -290,7 +268,9 @@ function App() {
         {
           method: "POST",
           body: formData,
-          headers: { "ngrok-skip-browser-warning": "true", }
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+          },
         }
       );
 
@@ -311,82 +291,53 @@ function App() {
         result
       );
 
+      /*
+       * El backend ya realizó la validación
+       * y actualizó el estado de la solicitud.
+       *
+       * No necesitamos volver a consultar
+       * /api/card-applications/{transactionId}.
+       */
       if (
         result.faceDetected &&
-        result.faceCount === 1
+        result.status === "FACE_DETECTED"
       ) {
         stopCamera();
 
-        /*
-         * Consultamos nuevamente el estado
-         * oficial de la solicitud.
-         */
-        const applicationResponse =
-          await fetch(
-            `${API_URL}/api/card-applications/${encodeURIComponent(
-              transactionId
-            )}`, { method: "GET", headers: { "ngrok-skip-browser-warning": "true", }, }
-          );
+        setApplication((current) => {
+          if (!current) {
+            return current;
+          }
 
-      console.log("card-applications Response 2:", applicationResponse);
-        if (
-          !applicationResponse.ok
-        ) {
-          throw new Error(
-            "No fue posible consultar el estado actualizado."
-          );
-        }
+          return {
+            ...current,
+            status: "FACE_DETECTED",
+            completedAt:
+              current.completedAt,
+          };
+        });
 
-        const updatedApplication =
-          (await applicationResponse.json()) as CardApplication;
-
-        console.log(
-          "Estado actualizado:",
-          updatedApplication
-        );
-
-        setApplication(
-          updatedApplication
-        );
-
-        if (
-          updatedApplication.status ===
-          "FACE_DETECTED"
-        ) {
-          setStatus("success");
-
-          setMessage(
-            "✓ Verificación facial completada correctamente."
-          );
-
-          return;
-        }
-
-        setStatus("retry");
+        setStatus("success");
 
         setMessage(
-          "El rostro fue detectado, pero la solicitud todavía no está lista para continuar."
+          "✓ Verificación facial completada correctamente."
         );
 
         return;
       }
 
-      if (
-        result.faceCount === 0
-      ) {
-        setStatus("retry");
-
-        setMessage(
-          "No se detectó ningún rostro. Asegúrate de estar frente a la cámara e inténtalo nuevamente."
-        );
-
-        return;
-      }
-
+      /*
+       * La detección facial falló.
+       *
+       * No nos interesa aquí la cantidad de
+       * rostros detectados. Esa lógica podrá
+       * cambiar posteriormente cuando integremos
+       * el plugin de identidad facial.
+       */
       setStatus("retry");
 
       setMessage(
-        "Se detectaron varios rostros. Debe aparecer solamente una persona."
+        "No fue posible detectar tu rostro. Asegúrate de estar frente a la cámara e inténtalo nuevamente."
       );
     } catch (error) {
       console.error(
@@ -402,78 +353,73 @@ function App() {
     }
   };
 
-  
+  const continueApplication = async () => {
+    if (!transactionId) {
+      setStatus("error");
 
-
-const continueApplication = async () => {
-  if (!transactionId) {
-    setStatus("error");
-    setMessage(
-      "No se encontró el identificador de la solicitud."
-    );
-    return;
-  }
-
-  try {
-    setMessage(
-      "Preparando la solicitud..."
-    );
-
-    const response = await fetch(
-      `${API_URL}/api/card-applications/${encodeURIComponent(
-        transactionId
-      )}/continue`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning":
-            "true",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const errorText =
-        await response.text();
-
-      throw new Error(
-        `HTTP ${response.status}: ${errorText}`
+      setMessage(
+        "No se encontró el identificador de la solicitud."
       );
+
+      return;
     }
 
-    const updatedApplication =
-      (await response.json()) as CardApplication;
+    try {
+      setMessage(
+        "Preparando la solicitud..."
+      );
 
-    console.log(
-      "Solicitud continuada:",
-      updatedApplication
-    );
+      const response = await fetch(
+        `${API_URL}/api/card-applications/${encodeURIComponent(
+          transactionId
+        )}/continue`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning":
+              "true",
+          },
+        }
+      );
 
-    setApplication(
-      updatedApplication
-    );
+      if (!response.ok) {
+        const errorText =
+          await response.text();
 
-    setMessage(
-      "✓ Solicitud lista para completar tus datos."
-    );
-  } catch (error) {
-    console.error(
-      "Error continuando solicitud:",
-      error
-    );
+        throw new Error(
+          `HTTP ${response.status}: ${errorText}`
+        );
+      }
 
-    setStatus("error");
+      const updatedApplication =
+        (await response.json()) as CardApplication;
 
-    setMessage(
-      "No fue posible continuar con la solicitud."
-    );
-  }
-};
+      console.log(
+        "Solicitud continuada:",
+        updatedApplication
+      );
 
+      setApplication(
+        updatedApplication
+      );
 
+      setMessage(
+        "✓ Solicitud lista para completar tus datos."
+      );
+    } catch (error) {
+      console.error(
+        "Error continuando solicitud:",
+        error
+      );
 
+      setStatus("error");
 
+      setMessage(
+        "No fue posible continuar con la solicitud."
+      );
+    }
+  };
 
   useEffect(() => {
     loadApplication();
@@ -580,8 +526,7 @@ const continueApplication = async () => {
             marginTop: "24px",
           }}
         >
-          {status ===
-            "loading" && (
+          {status === "loading" && (
             <button disabled>
               Cargando solicitud...
             </button>
@@ -589,16 +534,13 @@ const continueApplication = async () => {
 
           {status === "idle" && (
             <button
-              onClick={
-                startCamera
-              }
+              onClick={startCamera}
             >
               Activar cámara
             </button>
           )}
 
-          {status ===
-            "starting" && (
+          {status === "starting" && (
             <button disabled>
               Activando cámara...
             </button>
@@ -606,16 +548,13 @@ const continueApplication = async () => {
 
           {status === "ready" && (
             <button
-              onClick={
-                captureAndDetect
-              }
+              onClick={captureAndDetect}
             >
               Detectar rostro
             </button>
           )}
 
-          {status ===
-            "detecting" && (
+          {status === "detecting" && (
             <button disabled>
               Analizando...
             </button>
@@ -623,9 +562,7 @@ const continueApplication = async () => {
 
           {status === "retry" && (
             <button
-              onClick={
-                captureAndDetect
-              }
+              onClick={captureAndDetect}
             >
               Intentar nuevamente
             </button>
@@ -633,18 +570,19 @@ const continueApplication = async () => {
 
           {status === "error" && (
             <button
-              onClick={
-                loadApplication
-              }
+              onClick={loadApplication}
             >
               Intentar nuevamente
             </button>
           )}
 
           {status === "success" &&
-            application?.status === "FACE_DETECTED" && (
+            application?.status ===
+              "FACE_DETECTED" && (
               <button
-                onClick={continueApplication}
+                onClick={
+                  continueApplication
+                }
               >
                 Continuar solicitud
               </button>
