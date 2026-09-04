@@ -28,7 +28,6 @@ interface CardApplication {
 
 function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
-
   const streamRef = useRef<MediaStream | null>(null);
 
   const [status, setStatus] = useState<Status>("loading");
@@ -50,9 +49,11 @@ function App() {
   const loadApplication = async () => {
     if (!transactionId) {
       setStatus("error");
+
       setMessage(
         "No se encontró el identificador de la solicitud."
       );
+
       return;
     }
 
@@ -93,9 +94,11 @@ function App() {
 
       if (data.status === "FACE_DETECTED") {
         setStatus("success");
+
         setMessage(
-          "✓ La verificación facial ya fue completada."
+          "✓ Verificación facial ya completada. Puedes volver a ChatGPT para continuar con tu solicitud."
         );
+
         return;
       }
 
@@ -297,6 +300,9 @@ function App() {
        *
        * No necesitamos volver a consultar
        * /api/card-applications/{transactionId}.
+       *
+       * FACE_DETECTED es el punto final de
+       * esta aplicación de verificación.
        */
       if (
         result.faceDetected &&
@@ -312,15 +318,13 @@ function App() {
           return {
             ...current,
             status: "FACE_DETECTED",
-            completedAt:
-              current.completedAt,
           };
         });
 
         setStatus("success");
 
         setMessage(
-          "✓ Verificación facial completada correctamente."
+          "✓ Verificación facial completada correctamente. Puedes volver a ChatGPT para continuar con tu solicitud."
         );
 
         return;
@@ -349,74 +353,6 @@ function App() {
 
       setMessage(
         "Ocurrió un error al procesar la imagen."
-      );
-    }
-  };
-
-  const continueApplication = async () => {
-    if (!transactionId) {
-      setStatus("error");
-
-      setMessage(
-        "No se encontró el identificador de la solicitud."
-      );
-
-      return;
-    }
-
-    try {
-      setMessage(
-        "Preparando la solicitud..."
-      );
-
-      const response = await fetch(
-        `${API_URL}/api/card-applications/${encodeURIComponent(
-          transactionId
-        )}/continue`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "ngrok-skip-browser-warning":
-              "true",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorText =
-          await response.text();
-
-        throw new Error(
-          `HTTP ${response.status}: ${errorText}`
-        );
-      }
-
-      const updatedApplication =
-        (await response.json()) as CardApplication;
-
-      console.log(
-        "Solicitud continuada:",
-        updatedApplication
-      );
-
-      setApplication(
-        updatedApplication
-      );
-
-      setMessage(
-        "✓ Solicitud lista para completar tus datos."
-      );
-    } catch (error) {
-      console.error(
-        "Error continuando solicitud:",
-        error
-      );
-
-      setStatus("error");
-
-      setMessage(
-        "No fue posible continuar con la solicitud."
       );
     }
   };
@@ -457,149 +393,180 @@ function App() {
           Verificación facial
         </h1>
 
-        <p>
-          Para continuar con tu
-          solicitud, necesitamos
-          detectar tu rostro.
-        </p>
-
-        {application && (
-          <div
-            style={{
-              marginTop: "24px",
-              padding: "16px",
-              border: "1px solid #ddd",
-              borderRadius: "12px",
-              textAlign: "left",
-            }}
-          >
-            <strong>
-              Solicitud
-            </strong>
-
-            <p>
-              <strong>
-                Tarjeta:
-              </strong>{" "}
-              {application.cardId}
-            </p>
-
-            <p>
-              <strong>
-                Estado:
-              </strong>{" "}
-              {application.status}
-            </p>
-
-            <p>
-              <strong>
-                Transaction ID:
-              </strong>{" "}
-              {application.transactionId}
-            </p>
-          </div>
+        {status !== "success" && (
+          <p>
+            Para continuar con tu
+            solicitud, necesitamos
+            detectar tu rostro.
+          </p>
         )}
 
-        <div
-          style={{
-            marginTop: "24px",
-          }}
-        >
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
+        {status === "success" ? (
+          <div
             style={{
-              width: "100%",
-              maxWidth: "500px",
-              aspectRatio: "4 / 3",
-              objectFit: "cover",
-              borderRadius: "12px",
-              backgroundColor: "#000",
+              marginTop: "32px",
+              padding: "32px 24px",
+              border: "1px solid #ddd",
+              borderRadius: "16px",
             }}
-          />
-        </div>
-
-        <div
-          style={{
-            marginTop: "24px",
-          }}
-        >
-          {status === "loading" && (
-            <button disabled>
-              Cargando solicitud...
-            </button>
-          )}
-
-          {status === "idle" && (
-            <button
-              onClick={startCamera}
+          >
+            <div
+              style={{
+                fontSize: "48px",
+                marginBottom: "16px",
+              }}
             >
-              Activar cámara
-            </button>
-          )}
+              ✓
+            </div>
 
-          {status === "starting" && (
-            <button disabled>
-              Activando cámara...
-            </button>
-          )}
+            <h2>
+              Verificación completada
+            </h2>
 
-          {status === "ready" && (
-            <button
-              onClick={captureAndDetect}
+            <p
+              style={{
+                marginTop: "16px",
+                lineHeight: "1.6",
+              }}
             >
-              Detectar rostro
-            </button>
-          )}
+              Tu verificación facial fue
+              completada correctamente.
+            </p>
 
-          {status === "detecting" && (
-            <button disabled>
-              Analizando...
-            </button>
-          )}
-
-          {status === "retry" && (
-            <button
-              onClick={captureAndDetect}
+            <p
+              style={{
+                marginTop: "16px",
+                lineHeight: "1.6",
+              }}
             >
-              Intentar nuevamente
-            </button>
-          )}
-
-          {status === "error" && (
-            <button
-              onClick={loadApplication}
-            >
-              Intentar nuevamente
-            </button>
-          )}
-
-          {status === "success" &&
-            application?.status ===
-              "FACE_DETECTED" && (
-              <button
-                onClick={
-                  continueApplication
-                }
+              Puedes volver a{" "}
+              <strong>ChatGPT</strong>{" "}
+              para continuar con tu
+              solicitud.
+            </p>
+          </div>
+        ) : (
+          <>
+            {application && (
+              <div
+                style={{
+                  marginTop: "24px",
+                  padding: "16px",
+                  border: "1px solid #ddd",
+                  borderRadius: "12px",
+                  textAlign: "left",
+                }}
               >
-                Continuar solicitud
-              </button>
+                <strong>
+                  Solicitud
+                </strong>
+
+                <p>
+                  <strong>
+                    Tarjeta:
+                  </strong>{" "}
+                  {application.cardId}
+                </p>
+
+                <p>
+                  <strong>
+                    Estado:
+                  </strong>{" "}
+                  {application.status}
+                </p>
+
+                <p>
+                  <strong>
+                    Transaction ID:
+                  </strong>{" "}
+                  {application.transactionId}
+                </p>
+              </div>
             )}
 
-          {status === "success" &&
-            application?.status ===
-              "APPLICATION_IN_PROGRESS" && (
-              <button disabled>
-                Solicitud en progreso
-              </button>
-            )}
-        </div>
+            <div
+              style={{
+                marginTop: "24px",
+              }}
+            >
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                style={{
+                  width: "100%",
+                  maxWidth: "500px",
+                  aspectRatio: "4 / 3",
+                  objectFit: "cover",
+                  borderRadius: "12px",
+                  backgroundColor: "#000",
+                }}
+              />
+            </div>
+
+            <div
+              style={{
+                marginTop: "24px",
+              }}
+            >
+              {status === "loading" && (
+                <button disabled>
+                  Cargando solicitud...
+                </button>
+              )}
+
+              {status === "idle" && (
+                <button
+                  onClick={startCamera}
+                >
+                  Activar cámara
+                </button>
+              )}
+
+              {status === "starting" && (
+                <button disabled>
+                  Activando cámara...
+                </button>
+              )}
+
+              {status === "ready" && (
+                <button
+                  onClick={captureAndDetect}
+                >
+                  Detectar rostro
+                </button>
+              )}
+
+              {status === "detecting" && (
+                <button disabled>
+                  Analizando...
+                </button>
+              )}
+
+              {status === "retry" && (
+                <button
+                  onClick={captureAndDetect}
+                >
+                  Intentar nuevamente
+                </button>
+              )}
+
+              {status === "error" && (
+                <button
+                  onClick={loadApplication}
+                >
+                  Intentar nuevamente
+                </button>
+              )}
+            </div>
+          </>
+        )}
 
         <p
           style={{
             marginTop: "20px",
+            lineHeight: "1.5",
           }}
         >
           {message}
