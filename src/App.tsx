@@ -29,7 +29,6 @@ interface CardApplication {
 function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
-
   const [status, setStatus] = useState<Status>("loading");
 
   const [message, setMessage] = useState(
