@@ -1,4 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -356,6 +361,21 @@ function App() {
     }
   };
 
+  const buttonStyle = (
+    disabled?: boolean
+  ): CSSProperties => ({
+    width: "100%",
+    padding: "13px 16px",
+    fontSize: "15px",
+    fontWeight: 600,
+    color: "#ffffff",
+    background: disabled ? "#a8b3c7" : "#4f46e5",
+    border: "none",
+    borderRadius: "12px",
+    cursor: disabled ? "not-allowed" : "pointer",
+    transition: "background 0.2s ease",
+  });
+
   useEffect(() => {
     loadApplication();
 
@@ -377,115 +397,158 @@ function App() {
         alignItems: "center",
         padding: "24px",
         boxSizing: "border-box",
+        background: "linear-gradient(180deg, #f6f8fb 0%, #eef1f6 100%)",
         fontFamily:
-          "Arial, Helvetica, sans-serif",
+          "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+        color: "#1a2233",
       }}
     >
       <section
         style={{
           width: "100%",
-          maxWidth: "600px",
-          textAlign: "center",
+          maxWidth: "460px",
+          background: "#ffffff",
+          borderRadius: "20px",
+          padding: "40px 32px",
+          boxShadow:
+            "0 20px 50px rgba(16, 24, 40, 0.10)",
+          boxSizing: "border-box",
         }}
       >
-        <h1>
-          Verificación facial
-        </h1>
-
-        {status !== "success" && (
-          <p>
-            Para continuar con tu
-            solicitud, necesitamos
-            detectar tu rostro.
-          </p>
-        )}
-
         {status === "success" ? (
-          <div
-            style={{
-              marginTop: "32px",
-              padding: "32px 24px",
-              border: "1px solid #ddd",
-              borderRadius: "16px",
-            }}
-          >
+          <>
             <div
               style={{
-                fontSize: "48px",
-                marginBottom: "16px",
+                width: "72px",
+                height: "72px",
+                margin: "0 auto 20px",
+                borderRadius: "50%",
+                background: "#e6f7ee",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "32px",
+                color: "#16a34a",
               }}
             >
               ✓
             </div>
 
-            <h2>
+            <h1
+              style={{
+                fontSize: "24px",
+                fontWeight: 600,
+                margin: "0 0 8px",
+                textAlign: "center",
+              }}
+            >
               Verificación completada
-            </h2>
+            </h1>
 
             <p
               style={{
-                marginTop: "16px",
+                textAlign: "center",
+                margin: 0,
                 lineHeight: "1.6",
+                color: "#475467",
               }}
             >
               Tu verificación facial fue
               completada correctamente.
-            </p>
-
-            <p
-              style={{
-                marginTop: "16px",
-                lineHeight: "1.6",
-              }}
-            >
               Puedes volver a{" "}
               <strong>ChatGPT</strong>{" "}
               para continuar con tu
               solicitud.
             </p>
-          </div>
+          </>
         ) : (
           <>
+            <div style={{ marginBottom: "28px" }}>
+              <h1
+                style={{
+                  fontSize: "24px",
+                  fontWeight: 600,
+                  margin: "0 0 6px",
+                }}
+              >
+                Verificación facial
+              </h1>
+
+              <p
+                style={{
+                  margin: 0,
+                  color: "#475467",
+                  lineHeight: "1.5",
+                }}
+              >
+                Para continuar con tu
+                solicitud, necesitamos
+                detectar tu rostro.
+              </p>
+            </div>
+
             {application && (
               <div
                 style={{
-                  marginTop: "24px",
-                  padding: "16px",
-                  border: "1px solid #ddd",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  padding: "12px 16px",
+                  border: "1px solid #e4e7ec",
                   borderRadius: "12px",
-                  textAlign: "left",
+                  backgroundColor: "#f9fafb",
+                  marginBottom: "24px",
                 }}
               >
-                <strong>
-                  Solicitud
-                </strong>
+                <span
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "8px",
+                    background: "#eef2ff",
+                    color: "#4f46e5",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                  }}
+                >
+                  {application.cardId.charAt(0).toUpperCase()}
+                </span>
 
-                <p>
-                  <strong>
-                    Tarjeta:
-                  </strong>{" "}
-                  {application.cardId}
-                </p>
+                <div
+                  style={{
+                    textAlign: "left",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "#667085",
+                      margin: 0,
+                    }}
+                  >
+                    Tarjeta
+                  </p>
 
-                <p>
-                  <strong>
-                    Estado:
-                  </strong>{" "}
-                  {application.status}
-                </p>
-
-                <p>
-                  <strong>
-                    Transaction ID:
-                  </strong>{" "}
-                  {application.transactionId}
-                </p>
+                  <p
+                    style={{
+                      fontWeight: 600,
+                      margin: 0,
+                      fontSize: "15px",
+                    }}
+                  >
+                    {application.cardId}
+                  </p>
+                </div>
               </div>
             )}
 
             <div
               style={{
-                marginTop: "24px",
+                position: "relative",
+                marginBottom: "24px",
               }}
             >
               <video
@@ -495,22 +558,50 @@ function App() {
                 muted
                 style={{
                   width: "100%",
-                  maxWidth: "500px",
                   aspectRatio: "4 / 3",
                   objectFit: "cover",
-                  borderRadius: "12px",
-                  backgroundColor: "#000",
+                  borderRadius: "14px",
+                  backgroundColor: "#111827",
+                  display: "block",
                 }}
               />
+
+              {!["ready", "detecting", "retry"].includes(
+                status
+              ) && (
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                    color: "#9ca3af",
+                  }}
+                >
+                  <span style={{ fontSize: "32px" }}>
+                    📷
+                  </span>
+
+                  <span
+                    style={{
+                      fontSize: "13px",
+                    }}
+                  >
+                    Cámara inactiva
+                  </span>
+                </div>
+              )}
             </div>
 
-            <div
-              style={{
-                marginTop: "24px",
-              }}
-            >
+            <div style={{ width: "100%" }}>
               {status === "loading" && (
-                <button disabled>
+                <button
+                  disabled
+                  style={buttonStyle(true)}
+                >
                   Cargando solicitud...
                 </button>
               )}
@@ -518,13 +609,17 @@ function App() {
               {status === "idle" && (
                 <button
                   onClick={startCamera}
+                  style={buttonStyle()}
                 >
                   Activar cámara
                 </button>
               )}
 
               {status === "starting" && (
-                <button disabled>
+                <button
+                  disabled
+                  style={buttonStyle(true)}
+                >
                   Activando cámara...
                 </button>
               )}
@@ -532,13 +627,17 @@ function App() {
               {status === "ready" && (
                 <button
                   onClick={captureAndDetect}
+                  style={buttonStyle()}
                 >
                   Detectar rostro
                 </button>
               )}
 
               {status === "detecting" && (
-                <button disabled>
+                <button
+                  disabled
+                  style={buttonStyle(true)}
+                >
                   Analizando...
                 </button>
               )}
@@ -546,6 +645,7 @@ function App() {
               {status === "retry" && (
                 <button
                   onClick={captureAndDetect}
+                  style={buttonStyle()}
                 >
                   Intentar nuevamente
                 </button>
@@ -554,22 +654,26 @@ function App() {
               {status === "error" && (
                 <button
                   onClick={loadApplication}
+                  style={buttonStyle()}
                 >
                   Intentar nuevamente
                 </button>
               )}
             </div>
+
+            <p
+              style={{
+                margin: "20px 0 0",
+                textAlign: "center",
+                fontSize: "13px",
+                lineHeight: "1.5",
+                color: "#667085",
+              }}
+            >
+              {message}
+            </p>
           </>
         )}
-
-        <p
-          style={{
-            marginTop: "20px",
-            lineHeight: "1.5",
-          }}
-        >
-          {message}
-        </p>
       </section>
     </main>
   );
