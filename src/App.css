@@ -182,3 +182,12 @@
     border-right-color: var(--border);
   }
 }
+
+
+.credit-card__image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  padding: 16px;
+  box-sizing: border-box;
+}

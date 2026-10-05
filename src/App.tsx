@@ -31,6 +31,24 @@ interface CardApplication {
   completedAt: string | null;
 }
 
+import cuponClasica from "../../assets/cards/visa-clasica.png";
+import cuponGold from "../../assets/cards/mastercard-gold.png";
+import cuponSignature from "../../assets/cards/visa-signature.png";
+import cuponBlack from "../../assets/cards/mastercard-black.png";
+import cuponInfinite from "../../assets/cards/visa-infinite.png";
+import cuponJoven from "../../assets/cards/mastercard-joven.png";
+
+const cardById: Record<string, string> = {
+  'cupon-esencial': cuponClasica,
+  'cupon-plus': cuponGold,
+  'cupon-premium': cuponSignature,
+  'cupon-black': cuponBlack,
+  'cupon-infinite': cuponInfinite,
+  'cupon-inicial': cuponJoven,
+};
+
+import "../App.css"
+
 function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -532,7 +550,9 @@ function App() {
                     Tarjeta
                   </p>
 
-                  <p
+
+                  <img className="credit-card__image" src={cardById[application.cardId]} alt={application.cardId} />
+                  {/* <p
                     style={{
                       fontWeight: 600,
                       margin: 0,
@@ -540,7 +560,7 @@ function App() {
                     }}
                   >
                     {application.cardId}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             )}
