@@ -518,38 +518,12 @@ function App() {
                   marginBottom: "24px",
                 }}
               >
-                <span
-                  style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "8px",
-                    background: "#eef2ff",
-                    color: "#4f46e5",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontWeight: 600,
-                    fontSize: "14px",
-                  }}
-                >
-                  {application.cardId.charAt(0).toUpperCase()}
-                </span>
 
                 <div
                   style={{
                     textAlign: "left",
                   }}
                 >
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "#667085",
-                      margin: 0,
-                    }}
-                  >
-                    Tarjeta
-                  </p>
-
 
                   <img className="credit-card__image" src={cardById[application.cardId]} alt={application.cardId} />
                   {/* <p
