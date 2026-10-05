@@ -185,8 +185,7 @@
 
 
 .credit-card__image {
-  width: 100%;
+  width: 50%;
   aspect-ratio: 16 / 10;
-  object-fit: contain;
   box-sizing: border-box;
 }

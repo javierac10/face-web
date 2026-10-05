@@ -518,6 +518,22 @@ function App() {
                   marginBottom: "24px",
                 }}
               >
+                <span
+                  style={{
+                    width: "84px",
+                    height: "36px",
+                    borderRadius: "8px",
+                    background: "#eef2ff",
+                    color: "#4f46e5",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                  }}
+                >
+                  {application.cardId.charAt(0).toUpperCase()}
+                </span>
 
                 <div
                   style={{
