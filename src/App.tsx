@@ -31,12 +31,12 @@ interface CardApplication {
   completedAt: string | null;
 }
 
-import cuponClasica from "../../assets/cards/visa-clasica.png";
-import cuponGold from "../../assets/cards/mastercard-gold.png";
-import cuponSignature from "../../assets/cards/visa-signature.png";
-import cuponBlack from "../../assets/cards/mastercard-black.png";
-import cuponInfinite from "../../assets/cards/visa-infinite.png";
-import cuponJoven from "../../assets/cards/mastercard-joven.png";
+import cuponClasica from "./assets/cards/visa-clasica.png";
+import cuponGold from "./assets/cards/mastercard-gold.png";
+import cuponSignature from "./assets/cards/visa-signature.png";
+import cuponBlack from "./assets/cards/mastercard-black.png";
+import cuponInfinite from "./assets/cards/visa-infinite.png";
+import cuponJoven from "./assets/cards/mastercard-joven.png";
 
 const cardById: Record<string, string> = {
   'cupon-esencial': cuponClasica,
@@ -47,7 +47,7 @@ const cardById: Record<string, string> = {
   'cupon-inicial': cuponJoven,
 };
 
-import "../App.css"
+import "./App.css"
 
 function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
