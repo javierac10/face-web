@@ -1,18 +1,18 @@
-# Política de Privacidad – NTTDATABank
+# Política de Privacidad – TarjetaLab
 
 **Última actualización:** 19 de noviembre de 2026
 
 ## 1. Introducción
 
-NTTDATABank es una aplicación demostrativa desarrollada con fines educativos y tecnológicos, cuyo objetivo es mostrar las capacidades de integración entre aplicaciones, inteligencia artificial y servicios financieros simulados mediante el protocolo Model Context Protocol (MCP).
+TarjetaLab es una aplicación demostrativa desarrollada con fines educativos y tecnológicos, cuyo objetivo es mostrar las capacidades de integración entre aplicaciones, inteligencia artificial y servicios financieros simulados mediante el protocolo Model Context Protocol (MCP).
 
 Esta aplicación no es una entidad financiera, no es un banco real y no ofrece productos financieros reales. Las tarjetas, características, beneficios, tasas y límites mostrados corresponden a información de demostración creada para esta aplicación.
 
-Nos comprometemos a respetar la privacidad de las personas que utilizan NTTDATABank y a proporcionar información transparente sobre el tratamiento de los datos durante su funcionamiento.
+Nos comprometemos a respetar la privacidad de las personas que utilizan TarjetaLab y a proporcionar información transparente sobre el tratamiento de los datos durante su funcionamiento.
 
 ## 2. Información que recopilamos y procesamos
 
-NTTDATABank no solicita credenciales bancarias, números de cuentas reales, contraseñas ni información de tarjetas bancarias personales.
+TarjetaLab no solicita credenciales bancarias, números de cuentas reales, contraseñas ni información de tarjetas bancarias personales.
 
 Durante el uso de la aplicación pueden procesarse los siguientes datos:
 
@@ -33,7 +33,7 @@ Esta funcionalidad:
 - Se utiliza exclusivamente para realizar una prueba de detección de vida.
 - No tiene como finalidad identificar al usuario ni determinar su identidad.
 - No compara el rostro con documentos de identidad ni con una base de datos de personas.
-- No almacena las imágenes ni los vídeos capturados en los sistemas propios de NTTDATABank.
+- No almacena las imágenes ni los vídeos capturados en los sistemas propios de TarjetaLab.
 
 El procesamiento de las imágenes se realiza mediante la infraestructura de Microsoft Azure y está sujeto a las políticas de privacidad y conservación del servicio correspondiente.
 
@@ -52,7 +52,7 @@ La información no se utiliza para evaluar la solvencia económica, aprobar cré
 
 ## 4. Uso de servicios de terceros
 
-Para proporcionar sus funcionalidades, NTTDATABank utiliza servicios tecnológicos de terceros:
+Para proporcionar sus funcionalidades, TarjetaLab utiliza servicios tecnológicos de terceros:
 
 **Microsoft Azure**
 
@@ -75,7 +75,7 @@ Estos proveedores pueden procesar información técnica necesaria para prestar s
 
 ## 5. Conservación y almacenamiento de información
 
-NTTDATABank no almacena fotografías ni vídeos capturados durante la verificación facial en sus propios sistemas.
+TarjetaLab no almacena fotografías ni vídeos capturados durante la verificación facial en sus propios sistemas.
 
 Las imágenes y vídeos son procesados por Azure AI Face Liveness para realizar la clasificación correspondiente.
 
@@ -87,7 +87,7 @@ Los identificadores y estados de las solicitudes de demostración pueden conserv
 
 ## 6. Seguridad de la información
 
-Implementamos medidas técnicas y organizativas razonables para proteger la información procesada por NTTDATABank frente a accesos no autorizados, alteraciones o divulgaciones indebidas.
+Implementamos medidas técnicas y organizativas razonables para proteger la información procesada por TarjetaLab frente a accesos no autorizados, alteraciones o divulgaciones indebidas.
 
 La comunicación entre los componentes de la aplicación utiliza conexiones HTTPS cuando corresponde.
 
@@ -113,7 +113,7 @@ Para realizar consultas o solicitudes relacionadas con la privacidad, pueden com
 
 ## 9. Menores de edad
 
-NTTDATABank es una aplicación de demostración tecnológica y no está diseñada para recopilar deliberadamente información personal de menores de edad.
+TarjetaLab es una aplicación de demostración tecnológica y no está diseñada para recopilar deliberadamente información personal de menores de edad.
 
 La utilización de la funcionalidad de verificación facial debe realizarse respetando los requisitos legales aplicables a la edad y al consentimiento de los usuarios.
 
@@ -121,13 +121,13 @@ La utilización de la funcionalidad de verificación facial debe realizarse resp
 
 Esta política puede actualizarse cuando se incorporen nuevas funcionalidades, se modifiquen los servicios utilizados o cambien los requisitos legales aplicables.
 
-La versión vigente estará disponible en la página pública de privacidad de NTTDATABank.
+La versión vigente estará disponible en la página pública de privacidad de TarjetaLab.
 
 ## 11. Contacto
 
-Para consultas relacionadas con esta política de privacidad o con el funcionamiento de NTTDATABank:
+Para consultas relacionadas con esta política de privacidad o con el funcionamiento de TarjetaLab:
 
-**Aplicación:** NTTDATABank
+**Aplicación:** TarjetaLab
 
 **Desarrollador / Responsable:** Javier Araujo
 
@@ -137,4 +137,4 @@ Para consultas relacionadas con esta política de privacidad o con el funcionami
 
 ---
 
-NTTDATABank es una aplicación demostrativa de desarrollo propio. No representa a una institución financiera real ni proporciona servicios bancarios, crediticios o financieros.
+TarjetaLab es una aplicación demostrativa de desarrollo propio. No representa a una institución financiera real ni proporciona servicios bancarios, crediticios o financieros.

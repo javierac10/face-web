@@ -50,16 +50,16 @@ const cardById: Record<string, string> = {
 import "./App.css"
 
 const policyHtml = `
-<h2>Política de Privacidad – NTTDATABank</h2>
+<h2>Política de Privacidad – TarjetaLab</h2>
 <p><strong>Última actualización:</strong> 19 de noviembre de 2026</p>
 
 <h3>1. Introducción</h3>
-<p>NTTDATABank es una aplicación demostrativa desarrollada con fines educativos y tecnológicos, cuyo objetivo es mostrar las capacidades de integración entre aplicaciones, inteligencia artificial y servicios financieros simulados mediante el protocolo Model Context Protocol (MCP).</p>
+<p>TarjetaLab es una aplicación demostrativa desarrollada con fines educativos y tecnológicos, cuyo objetivo es mostrar las capacidades de integración entre aplicaciones, inteligencia artificial y servicios financieros simulados mediante el protocolo Model Context Protocol (MCP).</p>
 <p>Esta aplicación no es una entidad financiera, no es un banco real y no ofrece productos financieros reales. Las tarjetas, características, beneficios, tasas y límites mostrados corresponden a información de demostración creada para esta aplicación.</p>
-<p>Nos comprometemos a respetar la privacidad de las personas que utilizan NTTDATABank y a proporcionar información transparente sobre el tratamiento de los datos durante su funcionamiento.</p>
+<p>Nos comprometemos a respetar la privacidad de las personas que utilizan TarjetaLab y a proporcionar información transparente sobre el tratamiento de los datos durante su funcionamiento.</p>
 
 <h3>2. Información que recopilamos y procesamos</h3>
-<p>NTTDATABank no solicita credenciales bancarias, números de cuentas reales, contraseñas ni información de tarjetas bancarias personales.</p>
+<p>TarjetaLab no solicita credenciales bancarias, números de cuentas reales, contraseñas ni información de tarjetas bancarias personales.</p>
 <p>Durante el uso de la aplicación pueden procesarse los siguientes datos:</p>
 <p><strong>2.1. Información de navegación y solicitudes</strong></p>
 <ul>
@@ -76,7 +76,7 @@ const policyHtml = `
 <li>Se utiliza exclusivamente para realizar una prueba de detección de vida.</li>
 <li>No tiene como finalidad identificar al usuario ni determinar su identidad.</li>
 <li>No compara el rostro con documentos de identidad ni con una base de datos de personas.</li>
-<li>No almacena las imágenes ni los vídeos capturados en los sistemas propios de NTTDATABank.</li>
+<li>No almacena las imágenes ni los vídeos capturados en los sistemas propios de TarjetaLab.</li>
 </ul>
 <p>El procesamiento de las imágenes se realiza mediante la infraestructura de Microsoft Azure y está sujeto a las políticas de privacidad y conservación del servicio correspondiente.</p>
 
@@ -93,7 +93,7 @@ const policyHtml = `
 <p>La información no se utiliza para evaluar la solvencia económica, aprobar créditos reales, realizar operaciones bancarias ni tomar decisiones financieras sobre los usuarios.</p>
 
 <h3>4. Uso de servicios de terceros</h3>
-<p>Para proporcionar sus funcionalidades, NTTDATABank utiliza servicios tecnológicos de terceros:</p>
+<p>Para proporcionar sus funcionalidades, TarjetaLab utiliza servicios tecnológicos de terceros:</p>
 <p><strong>Microsoft Azure</strong></p>
 <p>Se utiliza Azure AI Face Liveness para realizar la detección de vida mediante la cámara del dispositivo. También se utilizan servicios de infraestructura y comunicación para el funcionamiento de la aplicación.</p>
 <p>Microsoft procesa la información de acuerdo con sus condiciones y políticas de privacidad aplicables.</p>
@@ -105,13 +105,13 @@ const policyHtml = `
 <p>Estos proveedores pueden procesar información técnica necesaria para prestar sus servicios, de acuerdo con sus respectivas políticas y condiciones.</p>
 
 <h3>5. Conservación y almacenamiento de información</h3>
-<p>NTTDATABank no almacena fotografías ni vídeos capturados durante la verificación facial en sus propios sistemas.</p>
+<p>TarjetaLab no almacena fotografías ni vídeos capturados durante la verificación facial en sus propios sistemas.</p>
 <p>Las imágenes y vídeos son procesados por Azure AI Face Liveness para realizar la clasificación correspondiente.</p>
 <p>Microsoft establece condiciones específicas de conservación para su servicio Face Liveness, que pueden variar según la versión y configuración utilizada. Por ello, el procesamiento y la eventual conservación temporal de datos por parte de Microsoft se rigen por su documentación y políticas aplicables.</p>
 <p>Los identificadores y estados de las solicitudes de demostración pueden conservarse en los servicios backend durante el tiempo necesario para gestionar y mostrar el resultado de cada transacción.</p>
 
 <h3>6. Seguridad de la información</h3>
-<p>Implementamos medidas técnicas y organizativas razonables para proteger la información procesada por NTTDATABank frente a accesos no autorizados, alteraciones o divulgaciones indebidas.</p>
+<p>Implementamos medidas técnicas y organizativas razonables para proteger la información procesada por TarjetaLab frente a accesos no autorizados, alteraciones o divulgaciones indebidas.</p>
 <p>La comunicación entre los componentes de la aplicación utiliza conexiones HTTPS cuando corresponde.</p>
 <p>Sin embargo, ningún sistema informático puede garantizar una seguridad absoluta.</p>
 
@@ -127,21 +127,21 @@ const policyHtml = `
 <p><strong>Correo electrónico de privacidad:</strong> javieraraujocuadros@gmail.com</p>
 
 <h3>9. Menores de edad</h3>
-<p>NTTDATABank es una aplicación de demostración tecnológica y no está diseñada para recopilar deliberadamente información personal de menores de edad.</p>
+<p>TarjetaLab es una aplicación de demostración tecnológica y no está diseñada para recopilar deliberadamente información personal de menores de edad.</p>
 <p>La utilización de la funcionalidad de verificación facial debe realizarse respetando los requisitos legales aplicables a la edad y al consentimiento de los usuarios.</p>
 
 <h3>10. Modificaciones de esta política</h3>
 <p>Esta política puede actualizarse cuando se incorporen nuevas funcionalidades, se modifiquen los servicios utilizados o cambien los requisitos legales aplicables.</p>
-<p>La versión vigente estará disponible en la página pública de privacidad de NTTDATABank.</p>
+<p>La versión vigente estará disponible en la página pública de privacidad de TarjetaLab.</p>
 
 <h3>11. Contacto</h3>
-<p>Para consultas relacionadas con esta política de privacidad o con el funcionamiento de NTTDATABank:</p>
-<p><strong>Aplicación:</strong> NTTDATABank</p>
+<p>Para consultas relacionadas con esta política de privacidad o con el funcionamiento de TarjetaLab:</p>
+<p><strong>Aplicación:</strong> TarjetaLab</p>
 <p><strong>Desarrollador / Responsable:</strong> Javier Araujo</p>
 <p><strong>Correo electrónico:</strong> javieraraujocuadros@gmail.com</p>
 <p><strong>País:</strong> Perú</p>
 <hr />
-<p>NTTDATABank es una aplicación demostrativa de desarrollo propio. No representa a una institución financiera real ni proporciona servicios bancarios, crediticios o financieros.</p>
+<p>TarjetaLab es una aplicación demostrativa de desarrollo propio. No representa a una institución financiera real ni proporciona servicios bancarios, crediticios o financieros.</p>
 `;
 
 function App() {
