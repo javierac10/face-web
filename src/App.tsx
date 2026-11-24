@@ -445,7 +445,7 @@ function App() {
         setStatus("success");
 
         setMessage(
-          "✓ Verificación facial completada correctamente. Puedes volver a ChatGPT para continuar con tu solicitud."
+          "✓ Verificación facial completada correctamente. Tu identidad ha sido verificada correctamente. La solicitud está pendiente de continuar su procesamiento."
         );
 
         return;
@@ -559,7 +559,7 @@ function App() {
                 textAlign: "center",
               }}
             >
-              Verificación completada
+              Verificación facial completada
             </h1>
 
             <p
@@ -570,12 +570,7 @@ function App() {
                 color: "#475467",
               }}
             >
-              Tu verificación facial fue
-              completada correctamente.
-              Puedes volver a{" "}
-              <strong>ChatGPT</strong>{" "}
-              para continuar con tu
-              solicitud.
+              Tu identidad ha sido verificada correctamente. La solicitud está pendiente de continuar su procesamiento.
             </p>
           </>
         ) : (
